@@ -4,9 +4,9 @@ import io
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE = os.path.join(BASE_DIR, 'assets', 'base_template.png')
-F_REG    = os.path.join(BASE_DIR, 'fonts', 'Cinzel-Regular.ttf')
-F_BOLD   = os.path.join(BASE_DIR, 'fonts', 'Cinzel-Bold.ttf')
+TEMPLATE = os.path.join(BASE_DIR, 'base_template.png')
+F_REG    = os.path.join(BASE_DIR, 'Cinzel-Regular.ttf')
+F_BOLD   = os.path.join(BASE_DIR, 'Cinzel-Bold.ttf')
 
 # Canvas 1600x900
 W, H = 1600, 900
