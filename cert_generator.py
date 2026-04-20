@@ -13,6 +13,7 @@ import qrcode
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 TEMPLATE  = os.path.join(BASE_DIR, 'Certificado vacio.png')
+REFERENCE = os.path.join(BASE_DIR, 'VLUE2025ACT0001.png')
 ISOTIPO   = os.path.join(BASE_DIR, 'Isotipo Remastered.PNG')
 GRADIENT  = os.path.join(BASE_DIR, 'gradient_strip.png')   # opcional
 F_REG     = os.path.join(BASE_DIR, 'Cinzel-Regular.ttf')
@@ -107,21 +108,25 @@ def draw_body(draw, cx, y0, text, font, max_w, line_gap, color=DARK):
 
 # ── Separador decorativo ───────────────────────────────────────────
 def gradient_separator(img: Image.Image, cx: int, y: int, xl: int, xr: int):
-    # Extrae el separador directamente del template (igual que el script original de Codex)
-    template = Image.open(TEMPLATE).convert('RGBA')
-    crop = template.crop((170, 500, 1374, 548))
-    arr  = np.array(crop)
-    # Hacer transparentes los píxeles casi blancos
+    # Extrae el separador desde el certificado bueno, no desde el template
+    reference = Image.open(REFERENCE).convert('RGBA')
+    crop = reference.crop((170, 500, 1374, 548))
+
+    arr = np.array(crop)
+
     near_white = (arr[..., 0] > 245) & (arr[..., 1] > 245) & (arr[..., 2] > 245)
     arr[near_white, 3] = 0
-    # Ajuste de color igual al original
+
     mask = arr[..., 3] > 0
-    arr[..., 1] = np.where(mask, np.clip(arr[..., 1].astype(np.int16) + 6,  0, 255), arr[..., 1])
+    arr[..., 1] = np.where(mask, np.clip(arr[..., 1].astype(np.int16) + 6, 0, 255), arr[..., 1])
     arr[..., 2] = np.where(mask, np.clip(arr[..., 2].astype(np.int16) + 16, 0, 255), arr[..., 2])
+
     crop = Image.fromarray(arr)
+
     target_w = xr - xl
     target_h = 48
     crop = crop.resize((target_w, target_h), Image.Resampling.LANCZOS)
+
     img.alpha_composite(crop, (xl, y - target_h // 2))
 
 
