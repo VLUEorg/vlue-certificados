@@ -209,9 +209,10 @@ def generate_certificate_bytes(
     if name_w > 960: extra_gap = 14
     draw_centered(draw, CX, Y_NOMBRE, nombre_text, fn, BLACK)
 
-    # Separador decorativo
-    gradient_separator(cert, CX, Y_LINE + extra_gap, 200, 1310)
+    # Separador decorativo ya viene incluido en el template
+    # gradient_separator(cert, CX, Y_LINE + extra_gap, 200, 1310)
     draw = ImageDraw.Draw(cert)
+
 
     # Descripción
     body = descripcion.replace('{horas}', str(horas)) if '{horas}' in descripcion else descripcion
